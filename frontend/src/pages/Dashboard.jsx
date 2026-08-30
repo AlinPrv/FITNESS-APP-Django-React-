@@ -46,6 +46,7 @@ function Dashboard() {
   return (
     <div>
       <h2>Dashboard</h2>
+      <Link to="/progress">Vezi progresul tău →</Link>
 
       <h3>Adaugă antrenament nou</h3>
       <WorkoutForm onWorkoutCreated={handleWorkoutCreated} />
