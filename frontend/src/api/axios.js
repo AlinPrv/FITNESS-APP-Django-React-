@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
+  baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/',
 });
 
 const publicEndpoints = ['register/', 'token/', 'token/refresh/'];
@@ -73,7 +73,7 @@ apiClient.interceptors.response.use(
 
     try {
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/token/refresh/',
+        `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/'}token/refresh/`,
         {
           refresh: refreshToken,
         },
