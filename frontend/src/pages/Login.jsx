@@ -18,7 +18,7 @@ function Login() {
     setError('');
     try {
       const response = await apiClient.post('token/', { username, password });
-      login(response.data.access, response.data.refresh);
+      login(response.data.access, response.data.refresh, username);
       navigate('/dashboard');
     } catch {
       setError('Username sau parolă greșită');
