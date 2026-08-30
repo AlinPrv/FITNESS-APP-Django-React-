@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import apiClient from "../api/axios";
 import WorkoutForm from "../components/WorkoutForm";
+import Navbar from "../components/Navbar";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
 
 function Dashboard() {
-  const [exercises, setExercises] = useState([]);
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -12,11 +14,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [exercisesRes, workoutsRes] = await Promise.all([
-          apiClient.get("exercises/"),
-          apiClient.get("workouts/"),
-        ]);
-        setExercises(exercisesRes.data);
+        const workoutsRes = await apiClient.get("workouts/");
         setWorkouts(workoutsRes.data);
       } catch (err) {
         setError("Eroare la încărcarea datelor");
@@ -40,28 +38,38 @@ function Dashboard() {
     }
   };
 
-  if (loading) return <p>Se încarcă...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
-
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <Link to="/progress">Vezi progresul tău →</Link>
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <div className="max-w-2xl mx-auto px-4 py-6">
+        <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
 
-      <h3>Adaugă antrenament nou</h3>
-      <WorkoutForm onWorkoutCreated={handleWorkoutCreated} />
+        <Card className="mb-6">
+          <h3 className="font-semibold mb-3">Adaugă antrenament nou</h3>
+          <WorkoutForm onWorkoutCreated={handleWorkoutCreated} />
+        </Card>
 
-      <h3>Antrenamentele tale</h3>
-      <ul>
-        {workouts.map((w) => (
-          <li key={w.id}>
-            <Link to={`/workouts/${w.id}`}>
-              {w.name || "Antrenament"} - {w.date}
-            </Link>
-            <button onClick={() => handleDelete(w.id)}>Șterge</button>
-          </li>
-        ))}
-      </ul>
+        <h3 className="font-semibold mb-3">Antrenamentele tale</h3>
+
+        {loading && <p className="text-gray-500">Se încarcă...</p>}
+        {error && <p className="text-red-600">{error}</p>}
+
+        <div className="space-y-3">
+          {workouts.map((w) => (
+            <Card key={w.id} className="flex items-center justify-between">
+              <Link
+                to={`/workouts/${w.id}`}
+                className="text-blue-600 hover:underline font-medium"
+              >
+                {w.name || "Antrenament"} - {w.date}
+              </Link>
+              <Button variant="danger" onClick={() => handleDelete(w.id)}>
+                Șterge
+              </Button>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

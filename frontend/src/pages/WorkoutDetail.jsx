@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import apiClient from "../api/axios";
+import Navbar from "../components/Navbar";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 
 function WorkoutDetail() {
   const { id } = useParams();
@@ -71,81 +75,104 @@ function WorkoutDetail() {
     }
   };
 
-  if (loading) return <p>Se încarcă...</p>;
-  if (error && !workout) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading)
+    return <p className="text-center mt-10 text-gray-500">Se încarcă...</p>;
+  if (error && !workout)
+    return <p className="text-center mt-10 text-red-600">{error}</p>;
 
   return (
-    <div>
-      <Link to="/dashboard">← Înapoi la Dashboard</Link>
-      <h2>
-        {workout.name || "Antrenament"} - {workout.date}
-      </h2>
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <div className="max-w-2xl mx-auto px-4 py-6">
+        <Link to="/dashboard" className="text-blue-600 hover:underline text-sm">
+          ← Înapoi la Dashboard
+        </Link>
+        <h2 className="text-2xl font-bold my-4">
+          {workout.name || "Antrenament"} - {workout.date}
+        </h2>
 
-      <h3>Seturi</h3>
-      <ul>
-        {workout.sets.map((s) => (
-          <li key={s.id}>
-            {s.exercise_name}:{" "}
-            {s.reps
-              ? `${s.reps} repetări, ${s.weight_kg} kg`
-              : `${s.duration_seconds}s, ${s.distance_km} km`}
-            <button onClick={() => handleDeleteSet(s.id)}>Șterge</button>
-          </li>
-        ))}
-      </ul>
+        <Card className="mb-6">
+          <h3 className="font-semibold mb-3">Seturi</h3>
+          {workout.sets.length === 0 && (
+            <p className="text-gray-500 text-sm">Niciun set adăugat încă.</p>
+          )}
+          <div className="space-y-2">
+            {workout.sets.map((s) => (
+              <div
+                key={s.id}
+                className="flex items-center justify-between border-b pb-2"
+              >
+                <span>
+                  <strong>{s.exercise_name}</strong>:{" "}
+                  {s.reps
+                    ? `${s.reps} repetări, ${s.weight_kg} kg`
+                    : `${s.duration_seconds}s, ${s.distance_km} km`}
+                </span>
+                <Button variant="danger" onClick={() => handleDeleteSet(s.id)}>
+                  Șterge
+                </Button>
+              </div>
+            ))}
+          </div>
+        </Card>
 
-      <h3>Adaugă set</h3>
-      <form onSubmit={handleAddSet}>
-        <select
-          value={selectedExercise}
-          onChange={(e) => setSelectedExercise(e.target.value)}
-          required
-        >
-          <option value="">Alege exercițiu</option>
-          {exercises.map((ex) => (
-            <option key={ex.id} value={ex.id}>
-              {ex.name} ({ex.exercise_type === "cardio" ? "Cardio" : "Forță"})
-            </option>
-          ))}
-        </select>
+        <Card>
+          <h3 className="font-semibold mb-3">Adaugă set</h3>
+          <form onSubmit={handleAddSet}>
+            <select
+              value={selectedExercise}
+              onChange={(e) => setSelectedExercise(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Alege exercițiu</option>
+              {exercises.map((ex) => (
+                <option key={ex.id} value={ex.id}>
+                  {ex.name} (
+                  {ex.exercise_type === "cardio" ? "Cardio" : "Forță"})
+                </option>
+              ))}
+            </select>
 
-        {isCardio ? (
-          <>
-            <input
-              type="number"
-              placeholder="Durată (secunde)"
-              value={durationSeconds}
-              onChange={(e) => setDurationSeconds(e.target.value)}
-            />
-            <input
-              type="number"
-              step="0.01"
-              placeholder="Distanță (km)"
-              value={distanceKm}
-              onChange={(e) => setDistanceKm(e.target.value)}
-            />
-          </>
-        ) : (
-          <>
-            <input
-              type="number"
-              placeholder="Repetări"
-              value={reps}
-              onChange={(e) => setReps(e.target.value)}
-            />
-            <input
-              type="number"
-              step="0.01"
-              placeholder="Greutate (kg)"
-              value={weightKg}
-              onChange={(e) => setWeightKg(e.target.value)}
-            />
-          </>
-        )}
+            {isCardio ? (
+              <>
+                <Input
+                  type="number"
+                  placeholder="Durată (secunde)"
+                  value={durationSeconds}
+                  onChange={(e) => setDurationSeconds(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  step="0.01"
+                  placeholder="Distanță (km)"
+                  value={distanceKm}
+                  onChange={(e) => setDistanceKm(e.target.value)}
+                />
+              </>
+            ) : (
+              <>
+                <Input
+                  type="number"
+                  placeholder="Repetări"
+                  value={reps}
+                  onChange={(e) => setReps(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  step="0.01"
+                  placeholder="Greutate (kg)"
+                  value={weightKg}
+                  onChange={(e) => setWeightKg(e.target.value)}
+                />
+              </>
+            )}
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Adaugă set</button>
-      </form>
+            {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+            <Button type="submit">Adaugă set</Button>
+          </form>
+        </Card>
+      </div>
     </div>
   );
 }

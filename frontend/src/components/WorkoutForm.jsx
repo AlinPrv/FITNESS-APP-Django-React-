@@ -1,5 +1,7 @@
 import { useState } from "react";
 import apiClient from "../api/axios";
+import Input from "./ui/Input";
+import Button from "./ui/Button";
 
 function WorkoutForm({ onWorkoutCreated }) {
   const [name, setName] = useState("");
@@ -21,20 +23,20 @@ function WorkoutForm({ onWorkoutCreated }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <Input
         type="text"
         placeholder="Numele antrenamentului"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <input
+      <Input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
         required
       />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button type="submit">Adaugă antrenament</button>
+      {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+      <Button type="submit">Adaugă antrenament</Button>
     </form>
   );
 }
