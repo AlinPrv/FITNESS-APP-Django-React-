@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'workouts',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -142,9 +143,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Fitness App API',
+    'DESCRIPTION': 'API pentru aplicația de tracking fitness',
+    'VERSION': '1.0.0',
 }

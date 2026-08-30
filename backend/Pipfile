@@ -8,6 +8,7 @@ django = "*"
 djangorestframework = "*"
 django-environ = "*"
 djangorestframework-simplejwt = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 
