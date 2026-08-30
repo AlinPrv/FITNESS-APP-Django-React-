@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import apiClient from "../api/axios";
 import WorkoutForm from "../components/WorkoutForm";
 
@@ -53,7 +54,9 @@ function Dashboard() {
       <ul>
         {workouts.map((w) => (
           <li key={w.id}>
-            {w.name || "Antrenament"} - {w.date}
+            <Link to={`/workouts/${w.id}`}>
+              {w.name || "Antrenament"} - {w.date}
+            </Link>
             <button onClick={() => handleDelete(w.id)}>Șterge</button>
           </li>
         ))}
