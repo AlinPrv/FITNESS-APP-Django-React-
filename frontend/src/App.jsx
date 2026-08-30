@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import WorkoutDetail from "./pages/WorkoutDetail";
-import Progress from "./pages/Progress";
-import PrivateRoute from "./components/PrivateRoute";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import WorkoutDetail from './pages/WorkoutDetail';
+import Progress from './pages/Progress';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (

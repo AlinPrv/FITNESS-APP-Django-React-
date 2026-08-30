@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import apiClient from "../api/axios";
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import apiClient from '../api/axios';
+import Card from '../components/ui/Card';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
 
 function Register() {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,12 +20,12 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     try {
-      await apiClient.post("register/", formData);
-      navigate("/login");
-    } catch (err) {
-      setError("Eroare la înregistrare. Verifică datele introduse.");
+      await apiClient.post('register/', formData);
+      navigate('/login');
+    } catch {
+      setError('Eroare la înregistrare. Verifică datele introduse.');
     }
   };
 
@@ -55,7 +55,7 @@ function Register() {
           <Button type="submit">Register</Button>
         </form>
         <p className="text-sm text-center mt-4 text-gray-600">
-          Ai deja cont?{" "}
+          Ai deja cont?{' '}
           <Link to="/login" className="text-blue-600 hover:underline">
             Login
           </Link>

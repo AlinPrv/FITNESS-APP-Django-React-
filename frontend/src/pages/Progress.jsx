@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -10,29 +10,29 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
-import apiClient from "../api/axios";
-import Navbar from "../components/Navbar";
-import Card from "../components/ui/Card";
+} from 'recharts';
+import apiClient from '../api/axios';
+import Navbar from '../components/Navbar';
+import Card from '../components/ui/Card';
 
 function Progress() {
   const [workouts, setWorkouts] = useState([]);
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [selectedExerciseId, setSelectedExerciseId] = useState("");
+  const [error, setError] = useState('');
+  const [selectedExerciseId, setSelectedExerciseId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [workoutsRes, exercisesRes] = await Promise.all([
-          apiClient.get("workouts/"),
-          apiClient.get("exercises/"),
+          apiClient.get('workouts/'),
+          apiClient.get('exercises/'),
         ]);
         setWorkouts(workoutsRes.data);
         setExercises(exercisesRes.data);
-      } catch (err) {
-        setError("Eroare la încărcarea datelor");
+      } catch {
+        setError('Eroare la încărcarea datelor');
       } finally {
         setLoading(false);
       }
@@ -96,7 +96,7 @@ function Progress() {
           >
             <option value="">Alege exercițiu</option>
             {exercises
-              .filter((ex) => ex.exercise_type === "strength")
+              .filter((ex) => ex.exercise_type === 'strength')
               .map((ex) => (
                 <option key={ex.id} value={ex.id}>
                   {ex.name}

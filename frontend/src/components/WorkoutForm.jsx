@@ -1,23 +1,23 @@
-import { useState } from "react";
-import apiClient from "../api/axios";
-import Input from "./ui/Input";
-import Button from "./ui/Button";
+import { useState } from 'react';
+import apiClient from '../api/axios';
+import Input from './ui/Input';
+import Button from './ui/Button';
 
 function WorkoutForm({ onWorkoutCreated }) {
-  const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     try {
-      const response = await apiClient.post("workouts/", { name, date });
+      const response = await apiClient.post('workouts/', { name, date });
       onWorkoutCreated(response.data);
-      setName("");
-      setDate("");
-    } catch (err) {
-      setError("Eroare la crearea antrenamentului");
+      setName('');
+      setDate('');
+    } catch  {
+      setError('Eroare la crearea antrenamentului');
     }
   };
 

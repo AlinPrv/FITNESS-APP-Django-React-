@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import apiClient from "../api/axios";
-import useAuthStore from "../store/authStore";
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import apiClient from '../api/axios';
+import useAuthStore from '../store/authStore';
+import Card from '../components/ui/Card';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     try {
-      const response = await apiClient.post("token/", { username, password });
+      const response = await apiClient.post('token/', { username, password });
       login(response.data.access, response.data.refresh);
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Username sau parolă greșită");
+      navigate('/dashboard');
+    } catch {
+      setError('Username sau parolă greșită');
     }
   };
 
@@ -46,7 +46,7 @@ function Login() {
           <Button type="submit">Login</Button>
         </form>
         <p className="text-sm text-center mt-4 text-gray-600">
-          Nu ai cont?{" "}
+          Nu ai cont?{' '}
           <Link to="/register" className="text-blue-600 hover:underline">
             Înregistrează-te
           </Link>

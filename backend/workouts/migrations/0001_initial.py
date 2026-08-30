@@ -15,35 +15,112 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Exercise',
+            name="Exercise",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('muscle_group', models.CharField(choices=[('chest', 'Piept'), ('back', 'Spate'), ('legs', 'Picioare'), ('shoulders', 'Umeri'), ('arms', 'Brate'), ('core', 'Abdomen'), ('cardio', 'Cardio')], max_length=50)),
-                ('exercise_type', models.CharField(choices=[('strength', 'Forta'), ('cardio', 'Cardio')], max_length=50)),
-                ('description', models.TextField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "muscle_group",
+                    models.CharField(
+                        choices=[
+                            ("chest", "Piept"),
+                            ("back", "Spate"),
+                            ("legs", "Picioare"),
+                            ("shoulders", "Umeri"),
+                            ("arms", "Brate"),
+                            ("core", "Abdomen"),
+                            ("cardio", "Cardio"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                (
+                    "exercise_type",
+                    models.CharField(
+                        choices=[("strength", "Forta"), ("cardio", "Cardio")],
+                        max_length=50,
+                    ),
+                ),
+                ("description", models.TextField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Workout',
+            name="Workout",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('name', models.CharField(blank=True, max_length=255)),
-                ('notes', models.TextField(blank=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                ("name", models.CharField(blank=True, max_length=255)),
+                ("notes", models.TextField(blank=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='WorkoutSet',
+            name="WorkoutSet",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('reps', models.PositiveIntegerField(blank=True, null=True)),
-                ('weight_kg', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('duration_seconds', models.PositiveIntegerField(blank=True, null=True)),
-                ('distance_km', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('exercise', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sets', to='workouts.exercise')),
-                ('workout', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sets', to='workouts.workout')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("reps", models.PositiveIntegerField(blank=True, null=True)),
+                (
+                    "weight_kg",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True
+                    ),
+                ),
+                (
+                    "duration_seconds",
+                    models.PositiveIntegerField(blank=True, null=True),
+                ),
+                (
+                    "distance_km",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True
+                    ),
+                ),
+                (
+                    "exercise",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sets",
+                        to="workouts.exercise",
+                    ),
+                ),
+                (
+                    "workout",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sets",
+                        to="workouts.workout",
+                    ),
+                ),
             ],
         ),
     ]

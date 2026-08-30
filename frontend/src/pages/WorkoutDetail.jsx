@@ -1,51 +1,52 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import apiClient from "../api/axios";
-import Navbar from "../components/Navbar";
-import Card from "../components/ui/Card";
-import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
+import { useState, useEffect, useCallback } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import apiClient from '../api/axios';
+import Navbar from '../components/Navbar';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/Input';
 
 function WorkoutDetail() {
   const { id } = useParams();
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const [selectedExercise, setSelectedExercise] = useState("");
-  const [reps, setReps] = useState("");
-  const [weightKg, setWeightKg] = useState("");
-  const [durationSeconds, setDurationSeconds] = useState("");
-  const [distanceKm, setDistanceKm] = useState("");
+  const [selectedExercise, setSelectedExercise] = useState('');
+  const [reps, setReps] = useState('');
+  const [weightKg, setWeightKg] = useState('');
+  const [durationSeconds, setDurationSeconds] = useState('');
+  const [distanceKm, setDistanceKm] = useState('');
 
-  const fetchWorkout = async () => {
+  const fetchWorkout = useCallback(async () => {
     try {
       const [workoutRes, exercisesRes] = await Promise.all([
         apiClient.get(`workouts/${id}/`),
-        apiClient.get("exercises/"),
+        apiClient.get('exercises/'),
       ]);
       setWorkout(workoutRes.data);
       setExercises(exercisesRes.data);
-    } catch (err) {
-      setError("Eroare la încărcarea antrenamentului");
+    } catch {
+      setError('Eroare la încărcarea antrenamentului');
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchWorkout();
-  }, [id]);
+  }, [fetchWorkout]);
 
   const selectedExerciseObj = exercises.find(
     (ex) => ex.id === Number(selectedExercise),
   );
-  const isCardio = selectedExerciseObj?.exercise_type === "cardio";
+  const isCardio = selectedExerciseObj?.exercise_type === 'cardio';
 
   const handleAddSet = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     try {
       const payload = {
         workout: id,
@@ -55,14 +56,14 @@ function WorkoutDetail() {
         duration_seconds: isCardio ? durationSeconds || null : null,
         distance_km: isCardio ? distanceKm || null : null,
       };
-      await apiClient.post("workout-sets/", payload);
-      setReps("");
-      setWeightKg("");
-      setDurationSeconds("");
-      setDistanceKm("");
+      await apiClient.post('workout-sets/', payload);
+      setReps('');
+      setWeightKg('');
+      setDurationSeconds('');
+      setDistanceKm('');
       fetchWorkout();
-    } catch (err) {
-      setError("Eroare la adăugarea setului");
+    } catch {
+      setError('Eroare la adăugarea setului');
     }
   };
 
@@ -70,8 +71,8 @@ function WorkoutDetail() {
     try {
       await apiClient.delete(`workout-sets/${setId}/`);
       fetchWorkout();
-    } catch (err) {
-      setError("Eroare la ștergerea setului");
+    } catch {
+      setError('Eroare la ștergerea setului');
     }
   };
 
@@ -88,7 +89,7 @@ function WorkoutDetail() {
           ← Înapoi la Dashboard
         </Link>
         <h2 className="text-2xl font-bold my-4">
-          {workout.name || "Antrenament"} - {workout.date}
+          {workout.name || 'Antrenament'} - {workout.date}
         </h2>
 
         <Card className="mb-6">
@@ -103,7 +104,7 @@ function WorkoutDetail() {
                 className="flex items-center justify-between border-b pb-2"
               >
                 <span>
-                  <strong>{s.exercise_name}</strong>:{" "}
+                  <strong>{s.exercise_name}</strong>:{' '}
                   {s.reps
                     ? `${s.reps} repetări, ${s.weight_kg} kg`
                     : `${s.duration_seconds}s, ${s.distance_km} km`}
@@ -129,7 +130,7 @@ function WorkoutDetail() {
               {exercises.map((ex) => (
                 <option key={ex.id} value={ex.id}>
                   {ex.name} (
-                  {ex.exercise_type === "cardio" ? "Cardio" : "Forță"})
+                  {ex.exercise_type === 'cardio' ? 'Cardio' : 'Forță'})
                 </option>
               ))}
             </select>

@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import apiClient from "../api/axios";
-import WorkoutForm from "../components/WorkoutForm";
-import Navbar from "../components/Navbar";
-import Card from "../components/ui/Card";
-import Button from "../components/ui/Button";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import apiClient from '../api/axios';
+import WorkoutForm from '../components/WorkoutForm';
+import Navbar from '../components/Navbar';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
 
 function Dashboard() {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const workoutsRes = await apiClient.get("workouts/");
+        const workoutsRes = await apiClient.get('workouts/');
         setWorkouts(workoutsRes.data);
-      } catch (err) {
-        setError("Eroare la încărcarea datelor");
+      } catch {
+        setError('Eroare la încărcarea datelor');
       } finally {
         setLoading(false);
       }
@@ -33,8 +33,8 @@ function Dashboard() {
     try {
       await apiClient.delete(`workouts/${id}/`);
       setWorkouts(workouts.filter((w) => w.id !== id));
-    } catch (err) {
-      setError("Eroare la ștergere");
+    } catch {
+      setError('Eroare la ștergere');
     }
   };
 
@@ -61,7 +61,7 @@ function Dashboard() {
                 to={`/workouts/${w.id}`}
                 className="text-blue-600 hover:underline font-medium"
               >
-                {w.name || "Antrenament"} - {w.date}
+                {w.name || 'Antrenament'} - {w.date}
               </Link>
               <Button variant="danger" onClick={() => handleDelete(w.id)}>
                 Șterge
