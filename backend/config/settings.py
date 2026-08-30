@@ -46,9 +46,11 @@ INSTALLED_APPS = [
     'users',
     'workouts',
     'drf_spectacular',
+     'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -156,3 +158,8 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API pentru aplicația de tracking fitness',
     'VERSION': '1.0.0',
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
